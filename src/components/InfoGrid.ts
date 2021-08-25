@@ -38,11 +38,11 @@ export default class InfoGrid extends Component {
             color: '#fff',
             textDecoration: 'none',
           },
-          attributes: { href: 'https://github.com/euseanwoon2016/woon-js/tree/main/examples' },
+          attributes: { href: 'https://github.com/euseanwoon2016/woon-js/wiki' },
           children: [
             w({
               tag: 'div',
-              text: 'View Examples',
+              text: 'View Wiki',
               styles: { fontSize: '2rem', fontWeight: 'bold' },
             }),
           ],
