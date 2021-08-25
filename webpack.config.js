@@ -18,8 +18,8 @@ module.exports = {
       chunkFilename: '[id].[contenthash].css',
     }),
     new HtmlWebpackPlugin({
-      title: 'TypeScript & Webpack',
-      templateParameters: { title: 'TypeScript & Webpack' },
+      title: 'Woon.js JavaScript Framework',
+      templateParameters: { title: 'Woon.js JavaScript Framework' },
     }),
   ],
   module: {

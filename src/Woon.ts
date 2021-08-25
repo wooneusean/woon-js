@@ -38,9 +38,6 @@ export default class Woon {
     this.entry = entry;
     this.component = component;
 
-    this.mountedElement = document.createElement('div');
-    this.entry.appendChild(this.mountedElement);
-
     Object.defineProperty(component, 'onChange', {
       value: () => {
         this.render();
@@ -51,11 +48,11 @@ export default class Woon {
   }
 
   render() {
-    while (this.mountedElement.firstChild) {
-      this.mountedElement.removeChild(this.mountedElement.firstChild);
+    while (this.entry.firstChild) {
+      this.entry.removeChild(this.entry.firstChild);
     }
 
-    this.mountedElement.appendChild(this.component.build());
+    this.entry.appendChild(this.component.build());
     return this;
   }
 }
