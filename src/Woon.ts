@@ -3,13 +3,16 @@ export interface ComponentProps extends Partial<any> {
 }
 
 export abstract class Component {
+  static _UID: number = 0;
+  protected UID: number;
   protected props: any = {};
-  private state: any = {};
-  private onChange: () => void = () => {};
+  private onChange = () => window['__woon__'].render();
+  private getCache = () => window['__woon__'].cache[this.UID] || {};
+  private setCache = (cache: any) => (window['__woon__'].cache[this.UID] = cache);
 
   constructor(props?: any) {
     this.props = props;
-    this.state['props'] = props;
+    this.UID = Component._UID++;
 
     this.init();
   }
@@ -18,36 +21,47 @@ export abstract class Component {
 
   abstract build(): HTMLElement;
 
-  setState(key: string, value: any): any {
-    this.state = { ...this.state, [key]: value };
-    this.onChange();
-    return this.state[key];
+  protected newState(key: string, initialValue: any): void {
+    if (this.getCache()[key] != null) return;
+
+    this.setCache({ ...this.getCache(), [key]: initialValue });
   }
 
-  getState(key: string): any {
-    return this.state[key];
+  protected setState(key: string, value: any): void {
+    if (this.getState(key) === value) return;
+
+    this.setCache({ ...this.getCache(), [key]: value });
+
+    this.onChange();
+  }
+
+  protected getState(key: string): any {
+    return this.getCache()[key];
   }
 }
 
+declare global {
+  interface Window {
+    __woon__: any;
+  }
+}
+window['__woon__'] = {};
 export default class Woon {
   component: Component;
   entry: HTMLElement;
-  mountedElement: HTMLElement;
+  cache: { [key: number]: any } = {};
 
   constructor(entry: HTMLElement, component: Component) {
     this.entry = entry;
     this.component = component;
 
-    Object.defineProperty(component, 'onChange', {
-      value: () => {
-        this.render();
-      },
-      writable: false,
-    });
+    window['__woon__'] = this;
+
     return this.render();
   }
 
   render() {
+    Component._UID = 0;
     while (this.entry.firstChild) {
       this.entry.removeChild(this.entry.firstChild);
     }
@@ -67,7 +81,7 @@ interface ComponentBuilderProps {
 }
 
 export function w({ tag, attributes, styles, text, children, events }: Partial<ComponentBuilderProps>): HTMLElement {
-  const element = document.createElement(tag);
+  const element = document.createElement(tag || 'div');
 
   if (text != null) {
     element.appendChild(document.createTextNode(text));

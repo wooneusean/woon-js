@@ -2,6 +2,10 @@ import { Component, w } from '../Woon';
 import InfoGrid from './InfoGrid';
 
 export default class Body extends Component {
+  init() {
+    this.newState('counter', 0);
+  }
+
   build() {
     return w({
       tag: 'div',
@@ -28,6 +32,56 @@ export default class Body extends Component {
           children: [
             w({ tag: 'h1', text: 'Hello, world!', styles: { fontSize: '8rem' } }),
             w({ tag: 'span', text: 'This site was made using Woon.js', styles: { fontSize: '1.5rem' } }),
+            w({
+              tag: 'h1',
+              text: `Counter: ${this.getState('counter')}`,
+              styles: { display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' },
+              children: [
+                w({
+                  children: [
+                    w({
+                      tag: 'button',
+                      text: '+1',
+                      events: {
+                        click: () => {
+                          this.setState('counter', this.getState('counter') + 1);
+                        },
+                      },
+                      // Bootstrap button style
+                      styles: {
+                        backgroundColor: 'hsl(211, 75%, 60%)',
+                        color: 'white',
+                        padding: '0.5rem 0.75rem',
+                        border: 'none',
+                        borderRadius: '5px',
+                        fontSize: '1.5rem',
+                        cursor: 'pointer',
+                        margin: '0.25rem 0.5rem',
+                      },
+                    }),
+                    w({
+                      tag: 'button',
+                      text: '-1',
+                      events: {
+                        click: () => {
+                          this.setState('counter', this.getState('counter') - 1);
+                        },
+                      },
+                      styles: {
+                        backgroundColor: 'hsl(211, 75%, 60%)',
+                        color: 'white',
+                        padding: '0.5rem 0.75rem',
+                        border: 'none',
+                        borderRadius: '5px',
+                        fontSize: '1.5rem',
+                        cursor: 'pointer',
+                        margin: '0.25rem 0.5rem',
+                      },
+                    }),
+                  ],
+                }),
+              ],
+            }),
           ],
         }),
         new InfoGrid(),

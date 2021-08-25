@@ -43,20 +43,20 @@ module.exports = {
       },
     ],
   },
-  optimization: {
-    minimizer: [`...`, new CssMinimizerPlugin()],
-    minimize: true,
-    splitChunks: {
-      cacheGroups: {
-        styles: {
-          name: 'styles',
-          type: 'css/mini-extract',
-          chunks: 'all',
-          enforce: true,
-        },
-      },
-    },
-  },
+  // optimization: {
+  //   minimizer: [`...`, new CssMinimizerPlugin()],
+  //   minimize: true,
+  //   splitChunks: {
+  //     cacheGroups: {
+  //       styles: {
+  //         name: 'styles',
+  //         type: 'css/mini-extract',
+  //         chunks: 'all',
+  //         enforce: true,
+  //       },
+  //     },
+  //   },
+  // },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
